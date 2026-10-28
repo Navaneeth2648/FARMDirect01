@@ -58,6 +58,8 @@ services:
         sync: false
       - key: TWILIO_FROM
         sync: false
+      - key: UIDAI_QR_CERT
+        sync: false
       - key: RAZORPAY_KEY_ID
         sync: false
       - key: RAZORPAY_KEY_SECRET

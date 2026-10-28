@@ -6,6 +6,7 @@ import { homeFor, useAuth } from '../auth';
 import { LANGUAGES } from '../i18n';
 import { Button, ErrorBox, Field, Input, Modal, Notice, Select, Spinner, fieldErrors } from '../ui';
 import { VoiceHint } from '../trade-ui';
+import { AadhaarQrFill, rememberAadhaarAddress } from '../aadhaar';
 
 function Shell({ title, children, footer, accent = 'emerald', voice }: { title: string; children: ReactNode; footer?: ReactNode; accent?: 'emerald' | 'sky' | 'slate'; voice?: string }) {
   const { lang, setLang, t } = useAuth();
@@ -232,6 +233,7 @@ function BasicRegistration({ role, buyerType, onDone, accent }: { role: 'farmer'
   };
   return (
     <form onSubmit={submit} className="space-y-4">
+      {role === 'farmer' && !sent && <AadhaarQrFill onFilled={(d) => { setF((x) => ({ ...x, full_name: d.name })); rememberAadhaarAddress(d); }} />}
       <Field label={role === 'buyer' ? 'Full name of the authorised representative' : 'Your name'} required hint={role === 'farmer' ? 'Example: Ravi Kumar' : undefined} error={fe.full_name}>
         {(id) => <Input id={id} className={bigInput} autoComplete="name" value={f.full_name} onChange={(e) => setF({ ...f, full_name: e.target.value })} required disabled={!!sent} />}
       </Field>

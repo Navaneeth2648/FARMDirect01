@@ -11,6 +11,7 @@ import { sendOtp, smsConfigured } from '../providers/sms.ts';
 import { checkRegistrationBurst } from '../services/fraud.ts';
 import { notifyT } from '../services/messages.ts';
 import { farmerStanding } from '../services/standing.ts';
+import { AadhaarQrError, decodeAadhaarQr } from '../services/aadhaarQr.ts';
 
 export const authRouter = Router();
 
@@ -249,6 +250,28 @@ authRouter.post('/step-up/verify', requireAuth, ah(async (req, res) => {
   q.run('UPDATE sessions SET stepup_until = ? WHERE token_hash = ?', new Date(Date.now() + 10 * 60_000).toISOString(), req.sessionHash);
   audit(req, 'auth.step_up', 'user', req.user!.id);
   res.json({ ok: true, validMinutes: 10 });
+}));
+
+/**
+ * Reads an Aadhaar QR (scanned on the phone) and returns name and address to fill
+ * the form. Works before sign-up. The QR content is not logged or stored, and the
+ * Aadhaar number is never returned. A signed-in farmer whose QR passes UIDAI's
+ * signature check is marked identity-checked (level 3).
+ */
+authRouter.post('/aadhaar-qr', rateLimit({ name: 'aadhaar_qr', windowMs: 10 * 60_000, max: 20 }), ah(async (req, res) => {
+  const { qr } = parse(z.object({ qr: z.string().min(20).max(20_000) }), req.body);
+  let details;
+  try { details = decodeAadhaarQr(qr); } catch (e) {
+    throw new HttpError(400, e instanceof AadhaarQrError ? e.message : 'This QR code could not be read. Try again with a clearer photo.', 'bad_aadhaar_qr');
+  }
+  if (details.signature === 'invalid') throw new HttpError(400, 'This QR code failed the UIDAI signature check, so it may have been altered. Use the QR on your own Aadhaar card or a fresh e-Aadhaar.', 'aadhaar_signature_invalid');
+  let identityUpdated = false;
+  if (req.user && details.signature === 'verified' && ['farmer', 'fpo_manager'].includes(req.user.role)) {
+    const r = q.run('UPDATE users SET farmer_level = MAX(farmer_level, 3) WHERE id = ? AND farmer_level < 3', req.user.id);
+    identityUpdated = r.changes > 0;
+    if (identityUpdated) audit(req, 'identity.aadhaar_offline_qr', 'user', req.user.id, { method: 'UIDAI Secure QR, signature verified' });
+  }
+  res.json({ details, identity_updated: identityUpdated });
 }));
 
 authRouter.post('/logout', (req, res) => {

@@ -6,6 +6,7 @@ import { useAuth } from '../auth';
 import { Button, ErrorBox, Field, Input, INDIAN_STATES, Notice, Select, Spinner } from '../ui';
 import { CropSelect, LocationPicker } from '../shared';
 import { VoiceHint } from '../trade-ui';
+import { AadhaarQrFill, aadhaarLocation } from '../aadhaar';
 
 const KEY = 'fd_onboarding';
 const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch { return {}; } };
@@ -88,6 +89,7 @@ export function OnboardingPage() {
       title: 'Where is your farm?', voice: 'Step 2 of 4. Choose your state and type your district, mandal and village. You can also search your village.',
       body: (
         <div className="space-y-3">
+          <AadhaarQrFill compact onFilled={(d) => { const a = aadhaarLocation(d); setLoc((l: any) => Object.fromEntries(Object.entries({ ...l, ...a }).map(([k, v]) => [k, v || l[k] || '']))); }} />
           <Field label="State" hint="Example: Telangana">{(id) => <Select id={id} className="py-3 text-lg" value={loc.state} onChange={(e) => setLoc({ ...loc, state: e.target.value })} options={INDIAN_STATES} placeholder="Select state" />}</Field>
           <Field label="District" hint="Example: Warangal">{(id) => <Input id={id} className="py-3 text-lg" value={loc.district} onChange={(e) => setLoc({ ...loc, district: e.target.value })} />}</Field>
           <div className="grid grid-cols-2 gap-3">
