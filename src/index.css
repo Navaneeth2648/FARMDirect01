@@ -1,1 +1,102 @@
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Noto Sans", "Noto Sans Devanagari", "Noto Sans Telugu", "Noto Sans Malayalam", ui-sans-serif, system-ui, sans-serif;
+
+  /* Brand green: a clear field green used for every "emerald" utility in the app. */
+  --color-emerald-50: #f0faf2;
+  --color-emerald-100: #dcf3e1;
+  --color-emerald-200: #b5e5c0;
+  --color-emerald-300: #7fd094;
+  --color-emerald-400: #44b562;
+  --color-emerald-500: #1f9d44;
+  --color-emerald-600: #168a39;
+  --color-emerald-700: #127330;
+  --color-emerald-800: #115c29;
+  --color-emerald-900: #0f4b23;
+  --color-emerald-950: #052a12;
+}
+
+/*
+ * Dark mode. Pages use Tailwind's neutral and tint utilities, which read CSS
+ * variables, so the dark theme swaps those variables instead of editing every
+ * page: greys are inverted, white becomes the card surface, and pale tints
+ * become deep tints. Solid brand colours (buttons) are unchanged.
+ */
+html.dark {
+  color-scheme: dark;
+  --color-white: #141b16;
+  --color-gray-50: #0c120e;
+  --color-gray-100: #1a221c;
+  --color-gray-200: #263029;
+  --color-gray-300: #374239;
+  --color-gray-400: #6d7a71;
+  --color-gray-500: #96a39a;
+  --color-gray-600: #b4beb7;
+  --color-gray-700: #cdd5cf;
+  --color-gray-800: #e1e7e3;
+  --color-gray-900: #f0f4f1;
+  --color-gray-950: #f8faf9;
+  --color-slate-100: #1a221c;
+
+  --color-emerald-50: #10261a;
+  --color-emerald-100: #153321;
+  --color-emerald-200: #1d472d;
+  --color-emerald-300: #2b6a41;
+  --color-amber-50: #2a2010;
+  --color-amber-100: #3a2b12;
+  --color-amber-200: #4d3915;
+  --color-amber-300: #6b5018;
+  --color-red-50: #2c1515;
+  --color-red-100: #3d1a1a;
+  --color-red-200: #552222;
+  --color-red-300: #733030;
+  --color-sky-50: #0f2230;
+  --color-sky-100: #12304a;
+  --color-sky-200: #1a4262;
+  --color-sky-300: #245a84;
+  --color-violet-50: #1f1830;
+  --color-violet-100: #2b2045;
+  --color-violet-300: #4a3a78;
+}
+
+@layer utilities {
+  /* Keep white text, dark overlays and toasts readable when "white" is the dark surface. */
+  :where(html.dark) .text-white { color: #fff; }
+  :where(html.dark) .border-white { border-color: #fff; }
+  :where(html.dark) .bg-gray-800 { background-color: #2b352e; }
+  /* Dark-on-pale text becomes light-on-deep. */
+  :where(html.dark) .text-emerald-700, :where(html.dark) .text-emerald-600 { color: #6fd38c; }
+  :where(html.dark) .text-emerald-800, :where(html.dark) .text-emerald-900 { color: #a6e8b8; }
+  :where(html.dark) .text-amber-700, :where(html.dark) .text-amber-800, :where(html.dark) .text-amber-900 { color: #f4cd7a; }
+  :where(html.dark) .text-red-600, :where(html.dark) .text-red-700, :where(html.dark) .text-red-800, :where(html.dark) .text-red-900 { color: #f3a3a3; }
+  :where(html.dark) .text-sky-700, :where(html.dark) .text-sky-800, :where(html.dark) .text-sky-900 { color: #8fcaf3; }
+  :where(html.dark) .text-violet-800 { color: #c8b6f6; }
+  :where(html.dark) .text-emerald-100 { color: #dcf3e1; }
+}
+
+html.dark img:not([data-keep-bright]) { filter: brightness(0.92); }
+html.dark .leaflet-container { filter: brightness(0.85) contrast(1.05); }
+
+body { background-color: var(--color-gray-50); color: var(--color-gray-900); }
+
+/* Accessibility preferences toggled from the header */
+html.fd-large { font-size: 118%; }
+html.fd-contrast:not(.dark) body { background: #fff; color: #000; }
+html.fd-contrast:not(.dark) .text-gray-500, html.fd-contrast:not(.dark) .text-gray-600 { color: #1f2937 !important; }
+html.fd-contrast:not(.dark) .border-gray-200 { border-color: #374151 !important; }
+html.fd-contrast:not(.dark) a, html.fd-contrast:not(.dark) .text-emerald-700, html.fd-contrast:not(.dark) .text-emerald-800 { color: #0b3d1b !important; text-decoration-thickness: 2px; }
+html.fd-contrast.dark body { background: #000; }
+html.fd-contrast.dark .text-gray-500, html.fd-contrast.dark .text-gray-600 { color: #e5e7eb !important; }
+
+:focus-visible { outline: 3px solid #1f9d44; outline-offset: 2px; }
+
+/* Floating assistant entrance */
+@keyframes fd-pop { from { transform: scale(0.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.fd-pop { animation: fd-pop 0.25s ease-out both; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

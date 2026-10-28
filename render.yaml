@@ -1,0 +1,66 @@
+# Render blueprint: one web service (Express API + built React app).
+#
+# PROTOTYPE SETUP (free plan): no persistent disk, so the SQLite database and uploads
+# are reset whenever the service restarts or wakes from sleep. DEMO_MODE=on reloads
+# demo accounts and sample listings on every start and shows sign-in codes on screen.
+#
+# To keep data permanently: change plan to "starter", add the disk block below,
+# point DATABASE_FILE / UPLOAD_DIR at /var/data, and set DEMO_MODE to "off" once an
+# SMS provider is configured.
+#
+#   disk:
+#     name: farmdirect-data
+#     mountPath: /var/data
+#     sizeGB: 5
+services:
+  - type: web
+    name: farmdirect
+    runtime: node
+    plan: free
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: 24
+      - key: APP_SECRET
+        generateValue: true
+      - key: DATABASE_FILE
+        value: ./data/farmdirect.db
+      - key: UPLOAD_DIR
+        value: ./data/uploads
+      - key: DEMO_MODE
+        value: "on"
+      - key: ENABLE_JOBS
+        value: "true"
+      - key: ADMIN_MFA
+        value: "on"
+      # Keys below are entered in the Render dashboard (never committed).
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-flash-latest
+      - key: GEMINI_FALLBACK_MODEL
+        value: gemini-flash-lite-latest
+      - key: DATA_GOV_IN_API_KEY
+        sync: false
+      - key: SENTINELHUB_CLIENT_ID
+        sync: false
+      - key: SENTINELHUB_CLIENT_SECRET
+        sync: false
+      - key: SMS_PROVIDER
+        sync: false
+      - key: TWILIO_ACCOUNT_SID
+        sync: false
+      - key: TWILIO_AUTH_TOKEN
+        sync: false
+      - key: TWILIO_FROM
+        sync: false
+      - key: RAZORPAY_KEY_ID
+        sync: false
+      - key: RAZORPAY_KEY_SECRET
+        sync: false
+      - key: RAZORPAY_WEBHOOK_SECRET
+        sync: false

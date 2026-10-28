@@ -6,3 +6,7 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Local database and uploaded crop photos (sensitive user data)
+data/
+.test-uploads/

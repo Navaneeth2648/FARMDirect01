@@ -3,17 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Farm Direct</title>
-    <meta name="description" content="A direct farm-to-buyer marketplace connecting farmers and buyers with Aadhar verification, Andra Pradesh APMC prices, escrow protection, and multilingual support in English, Malayalam, Hindi, and Telugu." />
-    <meta property="og:title" content="Farm Direct" />
-    <meta property="og:description" content="A direct farm-to-buyer marketplace connecting farmers and buyers with Aadhar verification, Andra Pradesh APMC prices, escrow protection, and multilingual support in English, Malayalam, Hindi, and Telugu." />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0c120e" media="(prefers-color-scheme: dark)" />
+    <script>
+      // Apply the saved theme before the first paint so pages never flash the wrong colours.
+      (function () {
+        try {
+          var m = localStorage.getItem('fd_theme') || 'system';
+          var dark = m === 'dark' || (m === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          document.documentElement.classList.toggle('dark', dark);
+        } catch (e) {}
+      })();
+    </script>
+    <title>FARMDirect</title>
+    <meta name="description" content="FARMDirect connects Indian farmers with verified buyers, nearby storage and transport, with farming guidance from Medha AI." />
+    <meta property="og:title" content="FARMDirect" />
+    <meta property="og:description" content="FARMDirect connects Indian farmers with verified buyers, nearby storage and transport, with farming guidance from Medha AI." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Malayalam:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Malayalam:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700&display=swap" rel="stylesheet" />
   </head>
-  <body class="font-sans antialiased text-gray-900 bg-emerald-50/40">
+  <body class="font-sans antialiased">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

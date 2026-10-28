@@ -341,7 +341,7 @@ export const MOCK_USERS: User[] = [
   },
   {
     "id": "buyer5",
-    "name": "Farm Direct Co.",
+    "name": "Demo Buyer Co.",
     "phone": "+91 9876543224",
     "type": "buyer",
     "village": "Thrissur",

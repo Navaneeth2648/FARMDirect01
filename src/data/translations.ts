@@ -20,7 +20,7 @@ export const welcomeTranslations: Record<Language, {
   switchLang: string;
 }> = {
   en: {
-    appTitle: "Farm Direct",
+    appTitle: "FARMDirect",
     subtitle: "Connect Farmers & Buyers",
     farmerLogin: "Farmer Login",
     buyerLogin: "Buyer Login",
@@ -38,7 +38,7 @@ export const welcomeTranslations: Record<Language, {
     switchLang: "English",
   },
   ml: {
-    appTitle: "ഫാം ഡയറക്ട്",
+    appTitle: "FARMDirect",
     subtitle: "കർഷകരും വാങ്ങുന്നവരും തമ്മിൽ ബന്ധിപ്പിക്കുക",
     farmerLogin: "കർഷക ലോഗിൻ",
     buyerLogin: "വാങ്ങുന്നവരുടെ ലോഗിൻ",
@@ -56,7 +56,7 @@ export const welcomeTranslations: Record<Language, {
     switchLang: "മലയാളം",
   },
   hi: {
-    appTitle: "फार्म डायरेक्ट",
+    appTitle: "FARMDirect",
     subtitle: "किसानों और खरीदारों को सीधे जोड़ें",
     farmerLogin: "किसान लॉगिन",
     buyerLogin: "खरीदार लॉगिन",
@@ -74,7 +74,7 @@ export const welcomeTranslations: Record<Language, {
     switchLang: "हिन्दी",
   },
   te: {
-    appTitle: "ఫార్మ్ డైరెక్ట్",
+    appTitle: "FARMDirect",
     subtitle: "రైతులు & కొనుగోలుదారులను నేరుగా కలపండి",
     farmerLogin: "రైతు లాగిన్",
     buyerLogin: "కొనుగోలుదారు లాగిన్",
@@ -1822,8 +1822,8 @@ export const namesTranslations: Record<string, Record<Language, string>> = {
     hi: "ग्रीन वैली ट्रेडर्स",
     te: "గ్రీన్ వ్యాలీ ట్రేడర్స్",
   },
-  "Farm Direct Co.": {
-    en: "Farm Direct Co.",
+  "Demo Buyer Co.": {
+    en: "Demo Buyer Co.",
     ml: "ഫാം ഡയറക്ട് കമ്പനി",
     hi: "फार्म डायरेक्ट कंपनी",
     te: "ఫార్మ్ డైరెక్ట్ కో.",

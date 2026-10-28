@@ -5,7 +5,7 @@ interface LoadingScreenProps {
   message?: string;
 }
 
-export function LoadingScreen({ message = 'Loading Farm Direct...' }: LoadingScreenProps) {
+export function LoadingScreen({ message = 'Loading FARMDirect...' }: LoadingScreenProps) {
   return (
     <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-green-100 flex items-center justify-center p-4">
       <div className="text-center">
@@ -24,7 +24,7 @@ export function LoadingScreen({ message = 'Loading Farm Direct...' }: LoadingScr
           transition={{ delay: 0.2 }}
           className="space-y-1"
         >
-          <h2 className="text-2xl font-bold text-emerald-950">Farm Direct</h2>
+          <h2 className="text-2xl font-bold text-emerald-950">FARMDirect</h2>
           <p className="text-emerald-700 text-sm font-medium">{message}</p>
         </motion.div>
         <motion.div

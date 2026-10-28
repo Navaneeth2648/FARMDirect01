@@ -16,6 +16,8 @@ export default defineConfig(() => {
     server: {
       hmr: process.env.DISABLE_HMR !== 'true',
       watch: process.env.DISABLE_HMR === 'true' ? null : {},
+      // The Express API runs on :3001 in development (npm run dev starts both).
+      proxy: { '/api': { target: `http://localhost:${process.env.API_PORT || 3001}`, changeOrigin: false } },
     },
 
     preview: {
