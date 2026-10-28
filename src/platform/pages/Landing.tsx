@@ -99,38 +99,171 @@ export function PublicFooter() {
 }
 
 // ---------------------------------------------------------------- hero illustration (original SVG)
+/** Hero illustration: a farmer's phone at the centre of buyers, prices, storage, transport and Medha AI. Original artwork; motion is decorative and stops with "reduce motion". */
 function HeroArt() {
-  return (
-    <svg viewBox="0 0 520 420" className="h-auto w-full" role="img" aria-label="Illustration: a farm connected to buyers, storage and transport through FARMDirect">
-      <defs>
-        <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="#ecfdf5" /><stop offset="1" stopColor="#ffffff" /></linearGradient>
-      </defs>
-      <rect x="0" y="0" width="520" height="420" rx="28" fill="url(#sky)" />
-      {/* fields */}
-      <path d="M0 300 C120 260 240 270 520 250 L520 420 L0 420 Z" fill="#bbf7d0" />
-      <path d="M0 340 C150 300 300 320 520 300 L520 420 L0 420 Z" fill="#86efac" />
-      {[0, 1, 2, 3, 4, 5, 6].map((i) => <path key={i} d={`M${30 + i * 70} 420 L${90 + i * 60} 300`} stroke="#4ade80" strokeWidth="3" opacity="0.6" />)}
-      <circle cx="430" cy="70" r="30" fill="#fde68a" />
-      {/* farm house */}
-      <g transform="translate(40 210)"><rect width="90" height="60" fill="#fff" stroke="#065f46" strokeWidth="3" rx="4" /><path d="M-8 4 L45 -36 L98 4" fill="#047857" /><rect x="35" y="25" width="20" height="35" fill="#065f46" /></g>
-      {/* central hub */}
-      <g transform="translate(220 150)">
-        <rect width="110" height="110" rx="24" fill="#047857" />
-        <path d="M55 30 C35 45 35 70 55 82 C75 70 75 45 55 30 Z" fill="#fff" />
-        <text x="55" y="104" textAnchor="middle" fontSize="13" fontWeight="700" fill="#ecfdf5">FARMDirect</text>
+  const card = (x: number, y: number, w: number, h: number, delay: string, children: ReactNode) => (
+    <g className="fdh-float" style={{ animationDelay: delay }}>
+      <g transform={`translate(${x} ${y})`}>
+        <rect width={w} height={h} rx="14" fill="#ffffff" filter="url(#fdh-shadow)" />
+        {children}
       </g>
-      {/* connection lines */}
-      {[[130, 240, 220, 205], [330, 180, 410, 120], [330, 230, 420, 250], [275, 260, 275, 330]].map(([a, b, c, d], i) => (
-        <line key={i} x1={a} y1={b} x2={c} y2={d} stroke="#059669" strokeWidth="3" strokeDasharray="6 6" />
-      ))}
-      {/* buyer */}
-      <g transform="translate(400 80)"><rect width="96" height="58" rx="14" fill="#fff" stroke="#0369a1" strokeWidth="2.5" /><text x="48" y="25" textAnchor="middle" fontSize="12" fontWeight="700" fill="#0369a1">Verified</text><text x="48" y="42" textAnchor="middle" fontSize="12" fontWeight="700" fill="#0369a1">buyer</text></g>
-      {/* storage */}
-      <g transform="translate(410 215)"><rect width="90" height="62" rx="6" fill="#fff" stroke="#92400e" strokeWidth="2.5" /><path d="M-6 4 L45 -24 L96 4" fill="#b45309" /><rect x="30" y="28" width="30" height="34" fill="#fde68a" stroke="#92400e" strokeWidth="2" /></g>
-      {/* truck */}
-      <g transform="translate(225 330)"><rect width="70" height="34" rx="5" fill="#fff" stroke="#374151" strokeWidth="2.5" /><rect x="70" y="10" width="28" height="24" rx="4" fill="#d1fae5" stroke="#374151" strokeWidth="2.5" /><circle cx="18" cy="38" r="8" fill="#374151" /><circle cx="80" cy="38" r="8" fill="#374151" /></g>
-      {/* phone */}
-      <g transform="translate(150 70)"><rect width="62" height="104" rx="12" fill="#111827" /><rect x="6" y="12" width="50" height="80" rx="4" fill="#ecfdf5" /><rect x="12" y="22" width="38" height="8" rx="3" fill="#10b981" /><rect x="12" y="36" width="30" height="6" rx="3" fill="#a7f3d0" /><rect x="12" y="48" width="38" height="20" rx="4" fill="#fff" stroke="#10b981" /></g>
+    </g>
+  );
+  return (
+    <svg viewBox="0 0 560 460" className="h-auto w-full" role="img" aria-label="Illustration: a farmer's phone connected to mandi prices, verified buyers, offers, nearby storage, transport and Medha AI" style={{ fontFamily: 'inherit' }}>
+      <style>{`
+        .fdh-float { animation: fdh-float 6s ease-in-out infinite; }
+        .fdh-phone { animation: fdh-float 7s ease-in-out infinite; }
+        .fdh-flow { stroke-dasharray: 4 7; animation: fdh-flow 1.6s linear infinite; }
+        .fdh-draw { stroke-dasharray: 160; stroke-dashoffset: 160; animation: fdh-draw 3.5s ease-out infinite; }
+        .fdh-truck { animation: fdh-truck 16s linear infinite; }
+        .fdh-sway { transform-box: fill-box; transform-origin: 50% 100%; animation: fdh-sway 4s ease-in-out infinite; }
+        .fdh-sun { transform-box: fill-box; transform-origin: center; animation: fdh-pulse 5s ease-in-out infinite; }
+        .fdh-cloud { animation: fdh-cloud 30s linear infinite; }
+        .fdh-ping { transform-box: fill-box; transform-origin: center; animation: fdh-ping 2.4s ease-out infinite; }
+        @keyframes fdh-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+        @keyframes fdh-flow { to { stroke-dashoffset: -22; } }
+        @keyframes fdh-draw { 0% { stroke-dashoffset: 160; } 45%, 100% { stroke-dashoffset: 0; } }
+        @keyframes fdh-truck { 0% { transform: translateX(-140px); } 100% { transform: translateX(640px); } }
+        @keyframes fdh-sway { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+        @keyframes fdh-pulse { 0%, 100% { opacity: 0.55; transform: scale(1); } 50% { opacity: 0.9; transform: scale(1.12); } }
+        @keyframes fdh-cloud { 0% { transform: translateX(-80px); } 100% { transform: translateX(620px); } }
+        @keyframes fdh-ping { 0% { opacity: 0.7; transform: scale(0.6); } 100% { opacity: 0; transform: scale(1.8); } }
+      `}</style>
+      <defs>
+        <linearGradient id="fdh-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#e3f6ea" /><stop offset="0.6" stopColor="#f4fbf6" /><stop offset="1" stopColor="#ffffff" /></linearGradient>
+        <linearGradient id="fdh-hill1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#bfe9c9" /><stop offset="1" stopColor="#9bdcad" /></linearGradient>
+        <linearGradient id="fdh-hill2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#7fcf93" /><stop offset="1" stopColor="#4fb36d" /></linearGradient>
+        <linearGradient id="fdh-hub" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#1f9d44" /><stop offset="1" stopColor="#0f5f2b" /></linearGradient>
+        <linearGradient id="fdh-chart" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#1f9d44" stopOpacity="0.25" /><stop offset="1" stopColor="#1f9d44" stopOpacity="0" /></linearGradient>
+        <radialGradient id="fdh-glow"><stop offset="0" stopColor="#fde68a" /><stop offset="1" stopColor="#fde68a" stopOpacity="0" /></radialGradient>
+        <filter id="fdh-shadow" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="6" stdDeviation="7" floodColor="#0f3d22" floodOpacity="0.14" /></filter>
+        <pattern id="fdh-dots" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="#1f9d44" opacity="0.12" /></pattern>
+        <clipPath id="fdh-frame"><rect width="560" height="460" rx="28" /></clipPath>
+      </defs>
+
+      <g clipPath="url(#fdh-frame)">
+        <rect width="560" height="460" fill="url(#fdh-sky)" />
+        <rect width="560" height="300" fill="url(#fdh-dots)" />
+
+        {/* sun and clouds */}
+        <circle className="fdh-sun" cx="470" cy="62" r="54" fill="url(#fdh-glow)" />
+        <circle cx="470" cy="62" r="22" fill="#fcd34d" />
+        <g className="fdh-cloud" opacity="0.9"><path d="M60 52 a14 14 0 0 1 26 -6 a11 11 0 0 1 18 9 h-50 a8 8 0 0 1 6 -3z" fill="#ffffff" /></g>
+        <g className="fdh-cloud" style={{ animationDelay: '-15s' }} opacity="0.8"><path d="M230 34 a12 12 0 0 1 22 -5 a9 9 0 0 1 15 8 h-42 a7 7 0 0 1 5 -3z" fill="#ffffff" /></g>
+
+        {/* fields */}
+        <path d="M0 330 C140 300 300 318 560 290 L560 460 L0 460 Z" fill="url(#fdh-hill1)" />
+        <path d="M0 372 C160 340 330 362 560 336 L560 460 L0 460 Z" fill="url(#fdh-hill2)" />
+        {Array.from({ length: 11 }, (_, i) => (
+          <g key={i} className="fdh-sway" style={{ animationDelay: `${-i * 0.35}s` }}>
+            <path d={`M${28 + i * 52} 402 q-2 -14 0 -26`} stroke="#2f8f4e" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+            <path d={`M${28 + i * 52} 386 q-12 -4 -14 -14 q11 1 14 10z`} fill="#3aa35b" />
+            <path d={`M${28 + i * 52} 380 q12 -4 14 -14 q-11 1 -14 10z`} fill="#45b267" />
+          </g>
+        ))}
+
+        {/* road and truck */}
+        <path d="M0 430 C180 412 380 426 560 410 L560 460 L0 460 Z" fill="#e7ece8" />
+        <path d="M0 446 C180 428 380 442 560 426" stroke="#ffffff" strokeWidth="3" strokeDasharray="16 14" fill="none" opacity="0.9" />
+        <g className="fdh-truck">
+          <g transform="translate(0 398)">
+            <rect width="74" height="34" rx="6" fill="#ffffff" stroke="#1f2937" strokeWidth="2" />
+            <path d="M37 8 c-6 5 -6 13 0 17 c6 -4 6 -12 0 -17z" fill="#1f9d44" />
+            <path d="M74 12 h18 l10 11 v11 h-28z" fill="#d6f2de" stroke="#1f2937" strokeWidth="2" strokeLinejoin="round" />
+            <rect x="80" y="15" width="10" height="7" rx="1.5" fill="#9fd8f5" />
+            <circle cx="18" cy="36" r="7" fill="#1f2937" /><circle cx="18" cy="36" r="2.5" fill="#cbd5e1" />
+            <circle cx="88" cy="36" r="7" fill="#1f2937" /><circle cx="88" cy="36" r="2.5" fill="#cbd5e1" />
+          </g>
+        </g>
+
+        {/* connection lines from the phone to each card */}
+        {[
+          'M210 130 C175 120 160 112 150 104',
+          'M350 120 C390 110 400 100 410 96',
+          'M350 230 C385 236 398 240 412 244',
+          'M210 236 C178 244 164 248 150 252',
+          'M236 352 C214 360 196 362 178 360',
+        ].map((d, i) => (
+          <path key={i} d={d} className="fdh-flow" stroke="#1f9d44" strokeWidth="2.2" fill="none" strokeLinecap="round" opacity="0.75" style={{ animationDelay: `${-i * 0.3}s` }} />
+        ))}
+
+        {/* phone */}
+        <g className="fdh-phone">
+          <rect x="208" y="58" width="144" height="300" rx="24" fill="#111827" filter="url(#fdh-shadow)" />
+          <rect x="216" y="68" width="128" height="280" rx="18" fill="#f6fbf7" />
+          <rect x="262" y="74" width="36" height="6" rx="3" fill="#111827" />
+          {/* app header */}
+          <rect x="216" y="86" width="128" height="34" fill="url(#fdh-hub)" />
+          <path d="M232 95 c-5 4 -5 11 0 15 c5 -4 5 -11 0 -15z" fill="#ffffff" />
+          <text x="242" y="107" fontSize="11" fontWeight="800" fill="#ffffff">FARM<tspan fill="#c9f0d4">Direct</tspan></text>
+          {/* lot card */}
+          <rect x="224" y="128" width="112" height="70" rx="10" fill="#ffffff" stroke="#e2efe6" />
+          <circle cx="242" cy="148" r="11" fill="#fdecea" />
+          <path d="M238 152 c3 -9 9 -11 11 -8 c-2 6 -6 10 -11 8z" fill="#dc2626" /><path d="M247 143 l3 -4" stroke="#2f8f4e" strokeWidth="2" strokeLinecap="round" />
+          <text x="258" y="146" fontSize="9" fontWeight="700" fill="#111827">Dry Chillies</text>
+          <text x="258" y="158" fontSize="7.5" fill="#6b7280">Grade A · ready</text>
+          <rect x="232" y="170" width="96" height="20" rx="7" fill="#1f9d44" />
+          <text x="280" y="183.5" fontSize="8.5" fontWeight="700" fill="#ffffff" textAnchor="middle">View offers</text>
+          {/* price trend */}
+          <rect x="224" y="206" width="112" height="72" rx="10" fill="#ffffff" stroke="#e2efe6" />
+          <text x="232" y="221" fontSize="8" fontWeight="700" fill="#111827">Price trend</text>
+          <path d="M232 266 L248 258 L262 262 L278 248 L292 252 L308 238 L328 232 L328 270 L232 270 Z" fill="url(#fdh-chart)" />
+          <path className="fdh-draw" d="M232 266 L248 258 L262 262 L278 248 L292 252 L308 238 L328 232" stroke="#1f9d44" strokeWidth="2.4" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          <circle cx="328" cy="232" r="3.5" fill="#1f9d44" />
+          {/* quick icons */}
+          {[['#e6f6ea', '#1f9d44'], ['#e6f1fb', '#0369a1'], ['#fdf3e2', '#b45309']].map(([bg, fg], i) => (
+            <g key={i} transform={`translate(${228 + i * 38} 288)`}>
+              <rect width="30" height="30" rx="9" fill={bg} />
+              {i === 0 && <path d="M9 19 a6 6 0 0 1 3 -11 a5 5 0 0 1 9 3 a4 4 0 0 1 0 8z" fill={fg} />}
+              {i === 1 && <path d="M7 22 v-9 l8 -5 l8 5 v9z M12 22 v-5 h6 v5" fill="none" stroke={fg} strokeWidth="2" strokeLinejoin="round" />}
+              {i === 2 && <path d="M6 18 h12 v-7 h-12z M18 14 h4 l2 3 v1 h-6z" fill={fg} />}
+            </g>
+          ))}
+          <rect x="226" y="326" width="108" height="12" rx="6" fill="#eef5f0" />
+        </g>
+
+        {/* cards */}
+        {card(18, 62, 132, 66, '0s', <>
+          <text x="14" y="22" fontSize="11" fontWeight="700" fill="#111827">Mandi prices</text>
+          <text x="14" y="36" fontSize="8.5" fill="#6b7280">Official Agmarknet data</text>
+          <path className="fdh-draw" d="M14 54 L34 48 L52 51 L72 42 L92 45 L116 34" stroke="#1f9d44" strokeWidth="2.2" fill="none" strokeLinecap="round" strokeLinejoin="round" style={{ animationDelay: '-1s' }} />
+        </>)}
+        {card(410, 64, 132, 66, '-1.5s', <>
+          <circle cx="28" cy="33" r="15" fill="#dbeafe" />
+          <circle cx="28" cy="29" r="5.5" fill="#0369a1" /><path d="M18 42 a10 8 0 0 1 20 0z" fill="#0369a1" />
+          <circle cx="39" cy="44" r="7" fill="#1f9d44" stroke="#ffffff" strokeWidth="2" />
+          <path d="M36 44 l2 2 l4 -4" stroke="#ffffff" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          <text x="52" y="30" fontSize="11" fontWeight="700" fill="#111827">Verified</text>
+          <text x="52" y="44" fontSize="11" fontWeight="700" fill="#111827">buyer</text>
+        </>)}
+        {card(412, 212, 130, 72, '-3s', <>
+          <circle cx="24" cy="24" r="12" fill="#e6f6ea" />
+          <text x="24" y="28.5" fontSize="13" fontWeight="800" fill="#1f9d44" textAnchor="middle">₹</text>
+          <circle className="fdh-ping" cx="112" cy="16" r="5" fill="#1f9d44" /><circle cx="112" cy="16" r="3.5" fill="#1f9d44" />
+          <text x="42" y="22" fontSize="11" fontWeight="700" fill="#111827">New offer</text>
+          <text x="42" y="34" fontSize="8.5" fill="#6b7280">from a buyer</text>
+          <rect x="12" y="46" width="50" height="16" rx="8" fill="#1f9d44" /><text x="37" y="57" fontSize="8" fontWeight="700" fill="#ffffff" textAnchor="middle">Accept</text>
+          <rect x="68" y="46" width="50" height="16" rx="8" fill="#ffffff" stroke="#cfe3d5" /><text x="93" y="57" fontSize="8" fontWeight="700" fill="#374151" textAnchor="middle">Counter</text>
+        </>)}
+        {card(18, 222, 132, 62, '-4.5s', <>
+          <rect x="12" y="14" width="30" height="30" rx="9" fill="#e6f1fb" />
+          <path d="M18 38 v-11 l9 -6 l9 6 v11z" fill="none" stroke="#0369a1" strokeWidth="2" strokeLinejoin="round" />
+          <path d="M24 30 l3 -3 l3 3 M27 27 v7" stroke="#0369a1" strokeWidth="1.6" fill="none" strokeLinecap="round" />
+          <text x="50" y="27" fontSize="11" fontWeight="700" fill="#111827">Cold storage</text>
+          <text x="50" y="41" fontSize="8.5" fill="#6b7280">nearby · space open</text>
+        </>)}
+        {card(30, 326, 150, 56, '-2.2s', <>
+          <circle cx="26" cy="28" r="16" fill="#1f9d44" />
+          <path d="M26 16 c-5 -6 -11 -5 -13 -2 c3 4 8 4 13 2z M26 15 c4 -7 11 -7 13 -4 c-3 5 -9 5 -13 4z" fill="#bef264" />
+          <rect x="15" y="20" width="22" height="17" rx="8" fill="#f4fff6" />
+          <path d="M20 27 q2 -2 4 0 M28 27 q2 -2 4 0" stroke="#0f4b23" strokeWidth="1.6" fill="none" strokeLinecap="round" />
+          <path d="M23 31 q3 2.5 6 0" stroke="#0f4b23" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+          <text x="50" y="25" fontSize="10" fontWeight="700" fill="#111827">Medha AI</text>
+          <text x="50" y="38" fontSize="8.5" fill="#6b7280">Rain likely tomorrow</text>
+        </>)}
+      </g>
+      <rect x="0.5" y="0.5" width="559" height="459" rx="27.5" fill="none" stroke="#d6eadc" />
     </svg>
   );
 }
